@@ -7,13 +7,17 @@
 
 This report details the algorithm used to solve the Udacity nano-degree Unity Reacher environment with relevant performance metrics and ideas for future work.
 
+## Training Code
+
+The code used to train the `ddpg_agent.py` agent which uses the deep neural net model architectures defined in `model.py` is provided in `Continuous_Control.ipynb`.  The saved model weights for checkpoints after a varying number of episodes have been completed are provided for every 100 episodes from 100 through 4000 in the `checkpoints` directory.
+
 ## Learning Algorithm
 
 The learning algorthm used to solve this environment was a Deep Deterministic Policy Gradient (DDPG) with experience replay with local target policy and value networks and soft updates to the target network every 10 steps.  Updating the target network every 10 steps allows us to decouple the local network training from the target network training and in provides better stability in training.  Without this decoupling, the agent failed to train.
 
 ## Model Architecture
 
-The agent itself used two a fully connected deep neural nets defined in [ddpg_model.py](./ddpg_model.py) whose networks for the actor and critic were defined as shown below.  We used a relatively high hidden latent space (with respect to the number of degrees of freedom in the observation space) to allow the algorithm to learn complex relationships as the non-linear trigonometric relationships which tie the states together in the robotic arm would need significant numbers of DOF's to be able to accurately represent the motions needed.  While the agent was able to solve the environment, a smaller number of hidden units could likely have solved the environment as well and this optimization was left to a future exercise. The hidden layers used a ReLU activation functions and the final output layer which mapped to the four available continuous action dimensions did not have any additional shaping functions applied.  The number of nodes in each layer of this network are as follows:
+The agent itself used two a fully connected deep neural nets defined in [model.py](./model.py) whose networks for the actor and critic were defined as shown below.  We used a relatively high hidden latent space (with respect to the number of degrees of freedom in the observation space) to allow the algorithm to learn complex relationships as the non-linear trigonometric relationships which tie the states together in the robotic arm would need significant numbers of DOF's to be able to accurately represent the motions needed.  While the agent was able to solve the environment, a smaller number of hidden units could likely have solved the environment as well and this optimization was left to a future exercise. The hidden layers used a ReLU activation functions and the final output layer which mapped to the four available continuous action dimensions did not have any additional shaping functions applied.  The number of nodes in each layer of this network are as follows:
 
 The actor network is a straight deep neural network mapping the observation space to the action space while the critic network injects the actions selected into the second layer of the network, concatinated with the output of the first network to ensure that the critic network combines both the states and actions being taken in the assignment of the value of any given state-action pair a given point in time.
 
